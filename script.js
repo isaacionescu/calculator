@@ -1,14 +1,14 @@
 const formInput = document.querySelector('form')
 // console.log(formInput.value)
-
-let test = document.querySelector('.test')
-
-
-let curVal = 0;
-let newVal = 0;
+const htmlBox = document.querySelector('.test')
 let newValStr = "";
-
+let newVal = 0;
+let mainVal = 0;
+let mainValCalc = 0;
 let newOperator = "";
+
+let stateOk = false;
+let state2 = false;
 
 class App {
 	constructor() {
@@ -19,50 +19,74 @@ class App {
 		document.body.addEventListener("click", event => {
 			this.determineButton()
 		})
-
-		// document.body.addEventListener("mouseover", event => {
-		// 	this.highlight()
-		// })
-
-		// document.body.addEventListener("mouseout", event => {
-		// 	this.unhighlight()
-		// })
 	}
 
 	determineButton() {
 		if(event.target.matches('.sq')) {
 			const whichButton = event.target.closest('.sq')
 			const rawValue = whichButton.dataset.id;
-			console.log(`Raw value:     ${rawValue}`)
-			console.log(`Type of value: ${typeof rawValue}`)
-
+			console.log(`
+========= RAW VALUE: ${rawValue}`)
+			// console.log(`Value type:    ${typeof rawValue}`)
 			const curatedVal = parseInt(rawValue)
-			console.log(`Curated value: ${curatedVal}`)
+			// console.log(`Curated value: ${curatedVal}`)
+
 
 			if(curatedVal.toString() != 'NaN' || rawValue == '.') {
-				console.log('You are inputting a number')
-				newValStr += rawValue;
+				stateOk = true;
+				// htmlBox.innerText = newValStr;
 
-				test.innerText = newValStr
+				if(newOperator == "") {
 
-				newVal = parseFloat(newValStr)
-				console.log(`Live number: ${newVal}`)
-				// console.log(`Test doubling: ${newVal * 2}`)
+					newValStr+= rawValue;
+					newVal = `${parseFloat(newValStr)}`
+					console.log(`New value string: ${newValStr}`)
+					console.log(`New value: ${newVal}`);
+					console.log(`Last main value: ${mainVal}`)
+				}
+
+				else {
+					console.log(`Last operator: ${newOperator}`)
+					newValStr+= rawValue;
+					newVal = `${parseFloat(newValStr)}`
+					console.log(`New value string: ${newValStr}`)
+					console.log(`New value:        ${newVal}`)
+					console.log(`Last main value: ${mainVal}`)
+					state2 = true;
+				}
 
 			}
 
-			else if ((rawValue == '+' || '-' || '*' || "/")) {
-				console.log(`You are typing an operator`)
 
-				newOperator = rawValue
-				console.log(newOperator)
+			else if ((rawValue == '+' || '-' || '*' || '/')) {
+				// console.log(`//mainVal right now: ${mainVal}`)
+				// console.log(`//newVal right now: ${newVal}`)
 
-				curVal = newVal;
-				console.log(`Current value: ${curVal}`)
+				if(!stateOk) {console.log('Oops, type a number first!')}
 
-				newValStr = ""
+				else {
+					if(!state2) {
+						mainVal = newVal;
+					}
+
+					else if (state2) {
+						console.log(`== state2 is true!`);
+						mainVal = `${mainVal}${newOperator}${newVal}`
+						mainValCalc = eval(mainVal)
+					}
+					
+					newOperator = rawValue;
+					newValStr = "";
+
+					console.log(`New operator:  ${newOperator}`)
+					console.log(`New value string: ${newValStr}`)
+					console.log(`New value: ${newVal}`);
+					console.log(`Main value, spelled out: ${mainVal}`)
+					// console.log(`Type of Main value: ${typeof mainVal}`)
+					console.log(`Main value, calculated:  ${mainValCalc}`)
+					// console.log(`Type of Main value calculated: ${typeof mainValCalc}`)
+				}
 			}
-
 		}
 	}
 
