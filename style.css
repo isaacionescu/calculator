@@ -20,7 +20,7 @@ html, body {
 	flex-wrap: wrap;
 }
 
-.sq {
+.square {
 	margin: 0;
 	padding: 0;
 	align-items: center;
@@ -49,7 +49,7 @@ html, body {
 	height: 20%;
 }*/
 
-.test {
+.displaybox {
 	margin: 0 auto;
 	width: 70vw;
 	display: block;
