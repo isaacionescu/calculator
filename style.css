@@ -18,6 +18,8 @@ html, body {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	border-collapse: collapse;
+
 }
 
 .square {
@@ -29,22 +31,26 @@ html, body {
 	border: 2px solid black;
 	text-align: center;
 	font-size: 2rem;
-
+	border-collapse: collapse;
 	display: flex;
 	width: 25%;
 }
 
-/*.sq1 {
+.square:hover, .square:focus {
+	cursor: pointer;
+}
+
+/*.sq-norm {
 	width: 25%;
 	height: 20%;
 }
 
-.sq2 {
+.sq-tall {
 	width: 25%;
 	height: 40%;
 }
 
-.sq3 {
+.sq-wide {
 	width: 50%;
 	height: 20%;
 }*/
@@ -54,7 +60,7 @@ html, body {
 	width: 70vw;
 	display: block;
 	box-sizing: border-box;
-	border: 4px solid red;
+	border: 4px solid black;
 }
 
 .showText {
@@ -62,6 +68,10 @@ html, body {
 	width: 70vw;
 	box-sizing: border-box;
 	border: 5px solid black;
+}
+
+.highlight {
+	background-color: lightgrey;
 }
 
 
