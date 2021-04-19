@@ -13,10 +13,10 @@ let fullStr = "";
 const operatorsArr = ['+', '-', '*', '/'];
 
 // state management
+let virgin = true; // checks to see this is the first time user is typing a number
 let state1 = true;
 // state1  = currently a number is being typed (digit and/or period)
 // !state2 = currently an operator is being typed (+ - * / = or Clear)
-let virgin = true; // checks to see this is the first time user is typing a number
 let counter = 0;
 
 class App {
@@ -56,73 +56,49 @@ class App {
 			let isNumber = restringifiedVal !== "NaN";
 
 
-			// IF IT'S A DOT
-			if (rawVal == ".") {
-				console.log(`// You typed a dot`)
+			// IF IT'S A DIGIT OR PERIOD
+			if (isNumber || rawVal === ".") {
+				// console.log(`// is it digit? ${isNumber}`)
+				// console.log(`// is it a dot? ${rawVal == "."}`)
+				console.log(`// You are typing a number`)
 				state1 = true;
 				console.log(`// counter:     ${counter}`)
 				console.log(`// state1:      ${state1}`)
 				console.log(`// virgin?      ${virgin}`)
 
-				if(virgin) {					
-					console.log(`Value A string: ${valueAstr}`)
 
-					valueAstr = (valueAstr.includes('.')) ? 
-						valueAstr : `${valueAstr}.`;
-					// console.log(`Value A string: ${valueAstr}`)
-					// console.log(typeof valueAstr)
-					valueA = parseFloat(valueAstr) 
+				// check if there was already a dot
+				if(virgin) {
+					if((rawVal == '.') && (valueAstr.slice(-1) == '.')) {
+						valueAstr = valueAstr
+					} else {
+						valueAstr+= rawVal
+						fullStr+= rawVal;
+					}
+					valueA = parseFloat(valueAstr);
 					resultBox.innerText = valueAstr;
-					fullStr+= valueAstr;
 				}  
 
 				else if(!virgin) {
-					console.log(`Value B string: ${valueBstr}`)
-					valueBstr = (valueBstr.includes('.')) ? 
-						valueBstr : `${valueBstr}.`;
-					// console.log(`Value B string: ${valueBstr}`)
-					// console.log(typeof valueAstr)
-					valueB = parseFloat(valueBstr) 
-					resultBox.innerText = valueBstr;
-					fullStr+= valueBstr;
-				}
-
-				historyBox.innerText = fullStr;
-				console.log(`Value A: ${valueA}`)
-				console.log(`Value B: ${valueB}`)
-				console.log(`Value C: ${valueC}`)
-				console.log(`// Total fullStr: "${fullStr}"`)
-			}
-
-
-			// IF IT'S A DIGIT
-			else if (isNumber) {
-				console.log(`// You typed a digit`)
-				state1 = true;
-				console.log(`// counter:     ${counter}`)
-				console.log(`// state1:      ${state1}`)
-				console.log(`// virgin?      ${virgin}`)
-
-				if(virgin) {
-					valueAstr+= rawVal 
-					valueA = parseFloat(valueAstr)
-					resultBox.innerText = valueA;
-				}  else if(!virgin) {
-					valueBstr+= rawVal
+					if((rawVal == '.') && (valueBstr.slice(-1) == '.')) {
+						valueBstr = valueBstr
+					} else {
+						valueBstr+= rawVal
+						fullStr+= rawVal;
+					}
 					valueB = parseFloat(valueBstr)
+					resultBox.innerText = valueB;
 					valueC = eval(`${valueA}${op}${valueB}`)
-					resultBox.innerText = valueC;
 				}
 
-				fullStr+= rawVal;
 				historyBox.innerText = fullStr;
 				console.log(`Value A:        ${valueA}`)
-				console.log(`Value B:        ${valueB}`)
 				console.log(`Operator:       ${op}`)
+				console.log(`Value B:        ${valueB}`)
 				console.log(`Value C:        ${valueC}`)
 				// console.log(`Last character in fullStr: ${fullStr.slice(-1)}`)
-				console.log(`Value A string: ${valueAstr}`)
-				console.log(`Value B string: ${valueBstr}`)
+				// console.log(`Value A string: ${valueAstr}`)
+				// console.log(`Value B string: ${valueBstr}`)
 				console.log(`//// Total fullStr: "${fullStr}"`)
 			}
 
@@ -144,10 +120,13 @@ class App {
 					virgin = false;
 					fullStr+= rawVal;
 				}
+
+
 				op = fullStr.slice(-1)
 
 				if(counter > 1) {
 					valueA = valueC;
+					resultBox.innerText = valueA;
 					valueBstr = "";
 					valueB = 0;
 				}
@@ -167,15 +146,15 @@ class App {
 			}
 
 			// IF IT'S EQUAL
-			else if(rawVal == "=") {
+			else if(rawVal === "=") {
 				console.log(`// You typed an equal`)
-				state1 = false;
 				fullStr = (
 						operatorsArr.includes(fullStr.slice(-1)) ?
 						fullStr.slice(0, -1) : fullStr
 					)
-				console.log(`// state1: ${state1}`)
 
+
+				resultBox.innerText = state1 ? valueC : valueA;
 				historyBox.innerText = fullStr;
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
@@ -184,10 +163,8 @@ class App {
 			}
 
 			// IF IT'S CLEAR
-			else if(rawVal == "c") {
-				state1 = false;
+			else if(rawVal === "c") {
 				console.log(`// You typed CLEAR`)
-				console.log(`// state1: ${state1}`)
 
 				valueA = 0;
 				valueB = 0;
@@ -197,8 +174,8 @@ class App {
 				fullStr = "";
 				virgin = true;
 				counter = 0;
-				historyBox.innerText = "Type again :)";
-				resultBox.innerText = " ";
+				historyBox.innerText = "Temporary history";
+				resultBox.innerText = "Type again :)";
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
 				console.log(`Value C: ${valueC}`)
