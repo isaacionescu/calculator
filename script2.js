@@ -37,13 +37,13 @@ class App {
 			this.highlight()
 		})
 
+		document.body.addEventListener("touchend", event => {
+			this.unhighlight()
+		})
 		document.body.addEventListener("mouseout", event => {
 			this.unhighlight()
 		})
 
-		document.body.addEventListener("touchend", event => {
-			this.unhighlight()
-		})
 	}
 
 	determineButton() {
@@ -156,7 +156,7 @@ class App {
 
 				resultBox.innerText = state1 ? valueC : valueA;
 				historyBox.innerText = fullStr;
-				
+
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
 				console.log(`Value C: ${valueC}`)
@@ -176,7 +176,7 @@ class App {
 				virgin = true;
 				counter = 0;
 				historyBox.innerText = " ";
-				resultBox.innerText = "(: Type again";
+				resultBox.innerText = " ";
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
 				console.log(`Value C: ${valueC}`)
