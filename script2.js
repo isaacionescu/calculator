@@ -1,4 +1,4 @@
-const box = document.querySelector('.displaybox')
+const historyBox = document.querySelector('.history-box')
 
 let valueA = 0;
 let valueAstr = "";
@@ -28,11 +28,19 @@ class App {
 			this.determineButton()
 		})
 
-		document.body.addEventListener("mouseover", event => {
+		document.body.addEventListener("touchstart", event => {
 			this.highlight()
 		})
 
+		// document.body.addEventListener("mouseover", event => {
+		// 	this.highlight()
+		// })
+
 		document.body.addEventListener("mouseout", event => {
+			this.unhighlight()
+		})
+
+		document.body.addEventListener("touchend", event => {
 			this.unhighlight()
 		})
 	}
@@ -49,7 +57,7 @@ class App {
 
 			// IF IT'S A DOT
 			if (rawVal == ".") {
-				// console.log(`You typed a dot.`)
+				console.log(`// You typed a dot`)
 				state1 = true;
 
 				// checks if the string already has a period - if yes, ignore it
@@ -67,8 +75,7 @@ class App {
 				}
 
 
-				box.innerText = fullStr;
-
+				historyBox.innerText = fullStr;
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
 				console.log(`Value C: ${valueC}`)
@@ -78,7 +85,7 @@ class App {
 
 			// IF IT'S A DIGIT
 			else if (isNumber) {
-				// console.log(`// You typed a digit.`)
+				console.log(`// You typed a digit`)
 				state1 = true;
 				console.log(`// counter:     ${counter}`)
 				console.log(`// state1:      ${state1}`)
@@ -98,8 +105,7 @@ class App {
 
 
 				fullStr+= rawVal;
-
-				box.innerText = fullStr;
+				historyBox.innerText = fullStr;
 				console.log(`Value A:        ${valueA}`)
 				console.log(`Value B:        ${valueB}`)
 				console.log(`Operator:       ${op}`)
@@ -111,10 +117,10 @@ class App {
 
 			// IF IT'S AN OPERATOR
 			else if (operatorsArr.includes(rawVal)) {
+				console.log(`// You typed an operator.`)
 				state1 = false;
 
-
-				// checks if last character is already an operator, and prevents multiple operators
+				// checks if last character is already an operator, and only remembers the last operator typed
 				if(operatorsArr.includes(fullStr.slice(-1))) {
 					// console.log(`Last character IS an operator!`)
 					fullStr = fullStr.slice(0, -1);
@@ -135,33 +141,30 @@ class App {
 				}
 
 
-				box.innerText = fullStr;
+				historyBox.innerText = fullStr;
 				console.log(`// counter:     ${counter}`)
 				console.log(`// state1:      ${state1}`)
 				console.log(`// virgin?      ${virgin}`)
-				// console.log(`// isNumber?    ${isNumber}`)
 				console.log(`fullStr:       "${fullStr}"`)
 				console.log(`Last prev character:  ${fullStr.slice(-2, -1)}`)
 				console.log(`Value A:  ${valueA}`)
 				console.log(`Operator: ${op}`)
 				console.log(`Value B:  ${valueB}`)
 				console.log(`Value C:  ${valueB}`)
-				// console.log(`// You typed an operator.`)
 				console.log(`//// Total fullStr: "${fullStr}"`)	
-				// console.log(`// New final result: ${valueB}`)
 			}
 
 			// IF IT'S EQUAL
 			else if(rawVal == "=") {
+				console.log(`// You typed an equal`)
 				state1 = false;
 				fullStr = (
 						operatorsArr.includes(fullStr.slice(-1)) ?
 						fullStr.slice(0, -1) : fullStr
 					)
 				console.log(`// state1: ${state1}`)
-				console.log(`// You typed an equal`)
 
-				box.innerText = valueC;
+				historyBox.innerText = valueC;
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
 				console.log(`Value C: ${valueC}`)
@@ -171,9 +174,8 @@ class App {
 			// IF IT'S CLEAR
 			else if(rawVal == "c") {
 				state1 = false;
-				console.log(`// state1: ${state1}`)
 				console.log(`// You typed CLEAR`)
-
+				console.log(`// state1: ${state1}`)
 
 				valueA = 0;
 				valueB = 0;
@@ -183,8 +185,7 @@ class App {
 				fullStr = "";
 				virgin = true;
 				counter = 0;
-				box.innerText = "Type again :)";
-
+				historyBox.innerText = "Type again :)";
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
 				console.log(`Value C: ${valueC}`)
