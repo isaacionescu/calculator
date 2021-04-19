@@ -2,17 +2,12 @@ const box = document.querySelector('.displaybox')
 
 let valueA = 0;
 let valueAstr = "";
-
 let valueB = 0;
 let valueBstr = "";
-
 let valueC = 0;
 
 let op = "";
-
-
 let rawVal = "";
-
 let fullStr = "";
 let operatorsArr = ['+', '-', '*', '/'];
 
@@ -20,12 +15,8 @@ let operatorsArr = ['+', '-', '*', '/'];
 let state1 = true;
 // state1  = currently a number is being typed (digit and/or period)
 // !state2 = currently an operator is being typed (+ - * / = or Clear)
-
 let virgin = true; // checks to see this is the first time user is typing a number
-
 let counter = 0;
-
-let resetBothBC = false; // keeps track of each time we reset B and C back to 0;
 
 class App {
 	constructor () {
@@ -58,20 +49,36 @@ class App {
 
 			// IF IT'S A DOT
 			if (rawVal == ".") {
+				// console.log(`You typed a dot.`)
 				state1 = true;
 
 				// checks if the string already has a period - if yes, ignore it
 				fullStr = fullStr.includes('.') ? fullStr : fullStr + rawVal;
+
+				if(virgin) {
+					valueAstr = valueAstr.includes('.') ? valueAstr : valueAstr + rawVal;
+					// console.log(`Value A string: ${valueAstr}`)
+					valueA = parseFloat(valueAstr)
+				}  else if(!virgin) {
+					valueBstr = valueBstr.includes('.') ? valueBstr : valueBstr + rawVal;
+					valueB = parseFloat(valueBstr)
+					// console.log(`Value B string: ${valueBstr}`)
+					valueC = eval(`${valueA}${op}${valueB}`)
+				}
+
+
 				box.innerText = fullStr;
+
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
-				// console.log(`You typed a dot.`)
+				console.log(`Value C: ${valueC}`)
 				console.log(`// Total fullStr: "${fullStr}"`)
 			}
 
 
 			// IF IT'S A DIGIT
 			else if (isNumber) {
+				// console.log(`// You typed a digit.`)
 				state1 = true;
 				console.log(`// counter:     ${counter}`)
 				console.log(`// state1:      ${state1}`)
@@ -98,9 +105,7 @@ class App {
 				console.log(`Operator:       ${op}`)
 				console.log(`Value C:        ${valueC}`)
 				// console.log(`Last character in fullStr: ${fullStr.slice(-1)}`)
-				// console.log(`// You typed a digit.`)
 				console.log(`//// Total fullStr: "${fullStr}"`)
-				
 			}
 
 
@@ -130,15 +135,13 @@ class App {
 				}
 
 
+				box.innerText = fullStr;
 				console.log(`// counter:     ${counter}`)
 				console.log(`// state1:      ${state1}`)
 				console.log(`// virgin?      ${virgin}`)
 				// console.log(`// isNumber?    ${isNumber}`)
 				console.log(`fullStr:       "${fullStr}"`)
 				console.log(`Last prev character:  ${fullStr.slice(-2, -1)}`)
-
-
-				// box.innerText = firstTimeTypingOp ? fullStr : fullStr;
 				console.log(`Value A:  ${valueA}`)
 				console.log(`Operator: ${op}`)
 				console.log(`Value B:  ${valueB}`)
@@ -210,4 +213,3 @@ new App()
 // console.log      (eval("2+"));  /// throws error
 // console.log  (parseInt("2+"));  /// 2
 // console.log(parseFloat("2+"));  /// 2
-
