@@ -69,14 +69,17 @@ class App {
 
 				// check if there was already a dot
 				if(virgin) {
+					// let aTemp = 0;
 					if((rawVal == '.') && (valueAstr.slice(-1) == '.')) {
 						valueAstr = valueAstr
 					} else {
-						valueAstr+= rawVal
-						fullStr+= rawVal;
+						valueAstr = (valueAstr.length > 8) ? valueAstr : valueAstr + rawVal;
+						fullStr = (fullStr.length > 8) ? fullStr : fullStr + rawVal;
 					}
+					
+					// valueA = aTemp
 					valueA = parseFloat(valueAstr);
-					resultBox.innerText = valueAstr;
+					resultBox.innerText = valueA;
 				}  
 
 				else if(!virgin) {
@@ -88,7 +91,10 @@ class App {
 					}
 					valueB = parseFloat(valueBstr)
 					resultBox.innerText = valueB;
-					valueC = eval(`${valueA}${op}${valueB}`)
+					let cTemp = eval(`${valueA}${op}${valueB}`);
+					console.log(`cTemp: ${cTemp}, type: ${typeof cTemp}`);
+					console.log(`cTemp length: ${cTemp.toString().length}`)
+					valueC = (cTemp.toString().length > 8) ? cTemp.toFixed(8) : cTemp
 				}
 
 				historyBox.innerText = fullStr;
