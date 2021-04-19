@@ -17,8 +17,8 @@ h1 {
 .grid {
 	margin: 0 auto;
 	background-color: azure;
-	height: 60vh;
 	width: 48vw;
+	height: 60vw;
 	border: 5px solid grey;
 	box-sizing: border-box;
 
@@ -73,7 +73,7 @@ h1 {
 	width: 48vw;
 	height: 3rem;
 	background-color: white;
-	
+
 
 	padding-right: 1rem;
 	display: flex;
