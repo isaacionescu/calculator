@@ -17,8 +17,8 @@ h1 {
 .grid {
 	margin: 0 auto;
 	background-color: azure;
-	width: 60vw;
-	height: 75vw;
+	width: 80vw;
+	height: 100vw;
 	border: 5px solid grey;
 	box-sizing: border-box;
 
@@ -57,7 +57,7 @@ h1 {
 	align-items: center;
 	background-color: white;
 
-	width: 48vw;
+	width: 80vw;
 	height: 2.5rem;
 	padding-left: 0.5rem;
 	display: flex;
@@ -70,7 +70,7 @@ h1 {
 
 .result-box {
 	margin: 0 auto 1rem;
-	width: 48vw;
+	width: 80vw;
 	height: 3rem;
 	background-color: white;
 
