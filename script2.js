@@ -1,4 +1,5 @@
-const historyBox = document.querySelector('.history-box')
+const historyBox = document.querySelector('.history-box');
+const resultBox = document.querySelector('.result-box');
 
 let valueA = 0;
 let valueAstr = "";
@@ -9,7 +10,7 @@ let valueC = 0;
 let op = "";
 let rawVal = "";
 let fullStr = "";
-let operatorsArr = ['+', '-', '*', '/'];
+const operatorsArr = ['+', '-', '*', '/'];
 
 // state management
 let state1 = true;
@@ -32,9 +33,9 @@ class App {
 			this.highlight()
 		})
 
-		// document.body.addEventListener("mouseover", event => {
-		// 	this.highlight()
-		// })
+		document.body.addEventListener("mouseover", event => {
+			this.highlight()
+		})
 
 		document.body.addEventListener("mouseout", event => {
 			this.unhighlight()
@@ -51,29 +52,40 @@ class App {
 			rawVal = whichButton.dataset.id;
 			console.log(`========== Raw value: "${rawVal}"`)
 			let numberifiedVal = parseInt(rawVal)
-			let stringifiedVal = numberifiedVal.toString()
-			let isNumber = stringifiedVal !== "NaN";
+			let restringifiedVal = numberifiedVal.toString()
+			let isNumber = restringifiedVal !== "NaN";
 
 
 			// IF IT'S A DOT
 			if (rawVal == ".") {
 				console.log(`// You typed a dot`)
 				state1 = true;
+				console.log(`// counter:     ${counter}`)
+				console.log(`// state1:      ${state1}`)
+				console.log(`// virgin?      ${virgin}`)
 
-				// checks if the string already has a period - if yes, ignore it
-				fullStr = fullStr.includes('.') ? fullStr : fullStr + rawVal;
+				if(virgin) {					
+					console.log(`Value A string: ${valueAstr}`)
 
-				if(virgin) {
-					valueAstr = valueAstr.includes('.') ? valueAstr : valueAstr + rawVal;
+					valueAstr = (valueAstr.includes('.')) ? 
+						valueAstr : `${valueAstr}.`;
 					// console.log(`Value A string: ${valueAstr}`)
-					valueA = parseFloat(valueAstr)
-				}  else if(!virgin) {
-					valueBstr = valueBstr.includes('.') ? valueBstr : valueBstr + rawVal;
-					valueB = parseFloat(valueBstr)
-					// console.log(`Value B string: ${valueBstr}`)
-					valueC = eval(`${valueA}${op}${valueB}`)
-				}
+					// console.log(typeof valueAstr)
+					valueA = parseFloat(valueAstr) 
+					resultBox.innerText = valueAstr;
+					fullStr+= valueAstr;
+				}  
 
+				else if(!virgin) {
+					console.log(`Value B string: ${valueBstr}`)
+					valueBstr = (valueBstr.includes('.')) ? 
+						valueBstr : `${valueBstr}.`;
+					// console.log(`Value B string: ${valueBstr}`)
+					// console.log(typeof valueAstr)
+					valueB = parseFloat(valueBstr) 
+					resultBox.innerText = valueBstr;
+					fullStr+= valueBstr;
+				}
 
 				historyBox.innerText = fullStr;
 				console.log(`Value A: ${valueA}`)
@@ -91,18 +103,16 @@ class App {
 				console.log(`// state1:      ${state1}`)
 				console.log(`// virgin?      ${virgin}`)
 
-
 				if(virgin) {
 					valueAstr+= rawVal 
-					// console.log(`Value A string: ${valueAstr}`)
 					valueA = parseFloat(valueAstr)
+					resultBox.innerText = valueA;
 				}  else if(!virgin) {
 					valueBstr+= rawVal
 					valueB = parseFloat(valueBstr)
-					// console.log(`Value B string: ${valueBstr}`)
 					valueC = eval(`${valueA}${op}${valueB}`)
+					resultBox.innerText = valueC;
 				}
-
 
 				fullStr+= rawVal;
 				historyBox.innerText = fullStr;
@@ -111,6 +121,8 @@ class App {
 				console.log(`Operator:       ${op}`)
 				console.log(`Value C:        ${valueC}`)
 				// console.log(`Last character in fullStr: ${fullStr.slice(-1)}`)
+				console.log(`Value A string: ${valueAstr}`)
+				console.log(`Value B string: ${valueBstr}`)
 				console.log(`//// Total fullStr: "${fullStr}"`)
 			}
 
@@ -164,7 +176,7 @@ class App {
 					)
 				console.log(`// state1: ${state1}`)
 
-				historyBox.innerText = valueC;
+				historyBox.innerText = fullStr;
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
 				console.log(`Value C: ${valueC}`)
@@ -186,6 +198,7 @@ class App {
 				virgin = true;
 				counter = 0;
 				historyBox.innerText = "Type again :)";
+				resultBox.innerText = " ";
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
 				console.log(`Value C: ${valueC}`)
