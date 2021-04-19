@@ -156,6 +156,7 @@ class App {
 
 				resultBox.innerText = state1 ? valueC : valueA;
 				historyBox.innerText = fullStr;
+				
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
 				console.log(`Value C: ${valueC}`)
@@ -174,8 +175,8 @@ class App {
 				fullStr = "";
 				virgin = true;
 				counter = 0;
-				historyBox.innerText = "Temporary history";
-				resultBox.innerText = "Type again :)";
+				historyBox.innerText = " ";
+				resultBox.innerText = "(: Type again";
 				console.log(`Value A: ${valueA}`)
 				console.log(`Value B: ${valueB}`)
 				console.log(`Value C: ${valueC}`)
